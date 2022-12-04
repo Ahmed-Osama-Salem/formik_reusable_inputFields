@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { ErrorMessage, Field } from 'formik';
 import { useEffect, useState } from 'react';
 import { AiFillCloseCircle } from 'react-icons/ai';
@@ -9,39 +8,49 @@ const SelectField = ({
   data,
   label,
   showErrors,
+  width,
+  required,
+  setFieldValue,
+  name,
 }: {
   data: { name: string }[];
   label: string;
-  showErrors: boolean;
+  showErrors?: boolean;
+  width: string;
+  required: boolean;
+  setFieldValue?: any;
+  name: string;
 }) => {
-  const [showList, setShowList] = useState(false);
-  const [selectItem, setSelectItem] = useState(0);
-  const [showSelectItem, setShowSelectItem] = useState(label);
-  const [connectField, setConnectField] = useState('');
+  const [showList, setShowList] = useState<boolean>(false);
+  const [selectItem, setSelectItem] = useState<number>(0);
+  const [showSelectItem, setShowSelectItem] = useState<string>(label);
+  const [connectField, setConnectField] = useState<string>('');
 
   const handelDeleteItem = () => {
     setSelectItem(0);
+    setFieldValue(name, '');
     setConnectField('');
     setShowSelectItem('');
-    // console.log(connectField, selectItem, showSelectItem);
+    setShowList(false);
   };
 
   useEffect(() => {
     handelDeleteItem();
-  }, [connectField]);
+  }, [connectField, selectItem]);
 
   return (
-    <main className="max-w-[500px]">
+    <main className={`${width} min-w-[250px] max-w-[500px]`}>
+      <p>{label}</p>
       {showErrors && (
-        <div>
-          <ErrorMessage name={label} />
+        <div className='text-red-500'>
+          <ErrorMessage name={name} />
         </div>
       )}
       <div
         onClick={() => {
           setShowList((prev) => !prev);
         }}
-        className=" relative flex h-[40px] w-[320px] min-w-[250px] max-w-[500px] cursor-pointer items-center gap-2 rounded-[10px] bg-white  pl-2 shadow-sm shadow-gray-500"
+        className=" relative flex h-[40px] cursor-pointer items-center gap-2 rounded-[10px] bg-white pl-2  shadow-sm shadow-gray-500 dark:bg-light-gray"
       >
         <BsFillCheckCircleFill
           className={
@@ -50,7 +59,7 @@ const SelectField = ({
               : 'text-[20px] text-blue-600 transition-all duration-300 ease-linear'
           }
         />
-        <span className="transition-all duration-300 ease-linear">
+        <span className="transition-all duration-300 ease-linear dark:text-white">
           {selectItem ? showSelectItem : `select ${label}`}
         </span>
         <div className="absolute right-3">
@@ -68,8 +77,8 @@ const SelectField = ({
       <div
         className={
           showList
-            ? 'mx-auto mt-1 h-[220px] w-[300px] translate-y-0 scale-[1]  overflow-y-scroll rounded-[10px] bg-white  opacity-100 shadow-lg shadow-black/50 transition-all duration-200 ease-linear'
-            : 'mx-auto mt-1 h-[0px] w-[300px] translate-y-[-20px] scale-[0.5] overflow-y-scroll rounded-[10px] bg-white  opacity-0 transition-all duration-300 ease-linear'
+            ? `mx-auto mt-1 h-[220px] w-[90%] max-w-[450px] translate-y-0 scale-[1]  overflow-y-scroll rounded-[10px] bg-white opacity-100  shadow-lg shadow-black/50 transition-all duration-200 ease-linear dark:bg-light-gray`
+            : `mx-auto mt-1 h-[0px] w-[90%] max-w-[450px] translate-y-[-20px] scale-[0.5] overflow-y-scroll rounded-[10px] bg-white opacity-0  transition-all duration-300 ease-linear dark:bg-light-gray`
         }
       >
         <ul className="w-full">
@@ -81,6 +90,7 @@ const SelectField = ({
                     setSelectItem(i);
                     setShowSelectItem(item.name);
                     setConnectField(item.name);
+                    setShowList(false);
                   }}
                   key={i}
                   className={
@@ -93,8 +103,8 @@ const SelectField = ({
                     <BiCheck
                       className={
                         selectItem === i
-                          ? 'scale-100 opacity-100 transition-transform duration-200 ease-in'
-                          : 'scale-0 opacity-0 transition-transform duration-200 ease-in'
+                          ? 'scale-100 opacity-100 transition-transform duration-200 ease-in dark:text-white'
+                          : 'scale-0 opacity-0 transition-transform duration-200 ease-in dark:text-white'
                       }
                     />
                   </span>
@@ -102,18 +112,18 @@ const SelectField = ({
                     key={i}
                     className={
                       selectItem === i
-                        ? 'my-1 translate-x-[15px] cursor-pointer font-medium transition-transform duration-200 ease-in'
-                        : 'my-1 translate-x-[0px] cursor-pointer transition-transform duration-200 ease-in'
+                        ? 'my-1 translate-x-[15px] cursor-pointer font-medium transition-transform duration-200 ease-in dark:text-white'
+                        : 'my-1 translate-x-[0px] cursor-pointer transition-transform duration-200 ease-in dark:text-white'
                     }
                   >
                     {item.name}
                   </li>
                   <Field
                     type="radio"
-                    required
+                    required={required}
                     id={item.name}
-                    name="picked"
-                    value={selectItem ? connectField : ''}
+                    name={name}
+                    value={selectItem !== 0 ? connectField : ''}
                     className="opacity-0"
                   />
                 </div>

@@ -16,7 +16,7 @@ const Index = () => {
       
       <section style={{backgroundImage: `url(${spacebg.src})`, backgroundSize: "cover"}} className="relative justify-end w-screen h-screen mx-auto ">
         
-        <MyForm />
+        <MyForm  />
       </section>
     </Main>
   );
