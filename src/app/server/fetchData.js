@@ -37,22 +37,33 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 exports.fetchUsers = exports.BASE_URL = void 0;
-var ApiClient_1 = require("../utils/ApiClient");
+var axios_1 = require("axios");
 exports.BASE_URL = "https://jsonplaceholder.typicode.com";
 var fetchUsers = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var data, e_1;
     return __generator(this, function (_a) {
-        return [2 /*return*/, ApiClient_1["default"].get("".concat(exports.BASE_URL, "/uesrs"))
-                .then(function (data) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, axios_1["default"].get("".concat(exports.BASE_URL, "/users"))];
+            case 1:
+                data = _a.sent();
                 console.log(data);
-                return data.data;
-            })["catch"](function (err) {
-                return err;
-            })];
+                return [2 /*return*/, data];
+            case 2:
+                e_1 = _a.sent();
+                return [2 /*return*/, []];
+            case 3: return [2 /*return*/];
+        }
     });
 }); };
 exports.fetchUsers = fetchUsers;
-// try {
-//     return await axios.get(`${BASE_URL}/users`);
-//   } catch (e) {
-//     return [];
-//   }
+(0, exports.fetchUsers)();
+// return ApiClient.get(`${BASE_URL}/uesrs`)
+// .then((data) => {
+//   console.log(data);
+//   return data.data;
+// })
+// .catch((err) => {
+//   return err;
+// });
