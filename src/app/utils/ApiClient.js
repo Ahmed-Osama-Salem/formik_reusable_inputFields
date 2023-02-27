@@ -36,23 +36,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.fetchUsers = exports.BASE_URL = void 0;
-var ApiClient_1 = require("../utils/ApiClient");
-exports.BASE_URL = "https://jsonplaceholder.typicode.com";
-var fetchUsers = function () { return __awaiter(void 0, void 0, void 0, function () {
-    return __generator(this, function (_a) {
-        return [2 /*return*/, ApiClient_1["default"].get("".concat(exports.BASE_URL, "/uesrs"))
-                .then(function (data) {
-                console.log(data);
-                return data.data;
-            })["catch"](function (err) {
-                return err;
-            })];
-    });
-}); };
-exports.fetchUsers = fetchUsers;
-// try {
-//     return await axios.get(`${BASE_URL}/users`);
-//   } catch (e) {
-//     return [];
-//   }
+var axios_1 = require("axios");
+var ApiClient = function () {
+    var instance = axios_1["default"].create();
+    instance.interceptors.request.use(function (request) { return __awaiter(void 0, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            request.baseURL = process.env.API_BASE_URL;
+            request.validateStatus = function (status) { return status >= 200 && status < 300; };
+            return [2 /*return*/, request];
+        });
+    }); });
+    return instance;
+};
+exports["default"] = ApiClient();

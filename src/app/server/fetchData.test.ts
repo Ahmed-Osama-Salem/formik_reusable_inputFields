@@ -3,16 +3,14 @@ import axios from "axios";
 import { BASE_URL, fetchUsers } from "./fetchData";
 
 jest.mock("axios");
+const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 describe("fetchUsers", () => {
   describe("when API call is successful", () => {
     it("should return users list", async () => {
       // given
-      const users = [
-        { id: 1, name: "John" },
-        { id: 2, name: "Andrew" },
-      ];
-      axios.get.mockResolvedValueOnce(users);
+      const users = ["4664446666"];
+      mockedAxios.get.mockResolvedValueOnce(users);
 
       // when
       const result = await fetchUsers();
@@ -27,7 +25,7 @@ describe("fetchUsers", () => {
     it("should return empty users list", async () => {
       // given
       const message = "Network Error";
-      axios.get.mockRejectedValueOnce(new Error(message));
+      mockedAxios.get.mockRejectedValueOnce(new Error(message));
 
       // when
       const result = await fetchUsers();
